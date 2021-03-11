@@ -1,5 +1,6 @@
 package it.reply.challenge.edition2021;
 
+
 import it.reply.challenge.edition2021.model.Antenna;
 import it.reply.challenge.edition2021.model.Building;
 import it.reply.challenge.edition2021.model.Cell;
@@ -7,6 +8,7 @@ import it.reply.challenge.edition2021.model.Cell;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,25 +16,34 @@ public class SomeClass {
 
     public static void main(String[] args) {
 
+        String inputFileName = "data_scenarios_a_example.in";
+
+        if (args.length > 1)
+            inputFileName = args[1];
+
         int w = 0, h = 0,
                 buildings = 0,
                 antennas = 0;
 
         Cell[][] grid = null;
 
+        Integer score = null;
+
         List<Antenna> antennaList = new ArrayList<>();
 
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader(
-                    "input"));
+            reader = new BufferedReader(new InputStreamReader(
+                    SomeClass.class.getResourceAsStream("/" + inputFileName)));
             String line = reader.readLine();
             String[] s = line.split(" ");
             w = Integer.parseInt(s[0]);
             h = Integer.parseInt(s[1]);
             line = reader.readLine();
-            buildings = Integer.parseInt(s[0]);
-            antennas = Integer.parseInt(s[1]);
+            String[] s2 = line.split(" ");
+            buildings = Integer.parseInt(s2[0]);
+            antennas = Integer.parseInt(s2[1]);
+            score = Integer.parseInt(s2[2]);
 
              grid = new Cell[w][h];
 
@@ -46,6 +57,14 @@ public class SomeClass {
                         Integer.parseInt(s1[3])));
             }
 
+            for(int i = 0; i < w; i++) {
+                for (int j = 0; j < h; j++) {
+                    if (grid[i][j] == null)
+                        grid[i][j] = new Cell(i,j,null,null);
+                }
+                System.out.println();
+            }
+
             for (int i = 0; i < antennas; i++) {
                 line = reader.readLine();
                 String[] s1 = line.split(" ");
@@ -56,6 +75,22 @@ public class SomeClass {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+       System.out.println(printGrid(grid));
+
+    }
+
+    private static String printGrid(Cell[][] grid) {
+
+        String s = "";
+
+        for(Cell[] cLine : grid) {
+            for (Cell c : cLine) {
+                s=s.concat(c.getBuilding() != null ? "B\t" : ".\t");
+            }
+            s=s.concat("\n");
+        }
+        return s;
 
     }
 
