@@ -7,6 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Antenna {
 
+    String id;
     int x;
     int y;
     Integer range;
