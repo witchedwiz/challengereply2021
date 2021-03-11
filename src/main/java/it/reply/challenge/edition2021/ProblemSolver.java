@@ -24,7 +24,7 @@ public class ProblemSolver {
         this.buildings = buildings;
         this.antennaList = antennaList;
         this.grid = grid;
-        this.antennas = (Antenna[]) antennaList.toArray();
+        this.antennas = (Antenna[]) antennaList.toArray(new Antenna[antennaList.size()]);
 
         this.maxScore = 0;
     }
@@ -37,8 +37,9 @@ public class ProblemSolver {
             if(score > maxScore) {
                 maxScore = score;
                 //cloneGrid();
-                System.out.println("Found max score");
+                System.out.println("Found max score: " + maxScore);
                 printGrid();
+                return;
             }
         }
 
@@ -49,13 +50,16 @@ public class ProblemSolver {
                     continue;
                 }
 
+                System.out.println("Level " + level);
                 //Assegno
                 grid[i][j].setAntenna(antennas[level]);
                 antennas[level].setX(i);
                 antennas[level].setY(j);
 
                 //considerare se ha senso così
-                if(antennaReachesBuilding(antennas[level]));
+                if(!antennaReachesBuilding(antennas[level])){
+                    continue;
+                };
 
                 solve(level+1);
 
@@ -69,7 +73,7 @@ public class ProblemSolver {
 
     public boolean antennaReachesBuilding(Antenna a) {
         for(int i = a.getX()-a.getRange(); i < a.getX()+a.getRange(); i++) {
-            for(int j = a.getY()-a.getRange(); i < a.getY()+a.getRange(); j++) {
+            for(int j = a.getY()-a.getRange(); j < a.getY()+a.getRange(); j++) {
                 if((i < 0 ) || (j < 0)) {
                     continue;
                 }
@@ -115,18 +119,19 @@ public class ProblemSolver {
     }
 
     private void printGrid() {
+        System.out.println("Printing grid: \n");
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < M; j++) {
                 if(grid[i][j].getBuilding() != null) {
-                    System.out.println("B");
+                    System.out.print("B");
                 }
                 if(grid[i][j].getAntenna() != null) {
-                    System.out.println("A");
+                    System.out.print("A");
                 }
 
-                System.out.println(" ");
+                System.out.print(".");
             }
-            System.out.println("\n");
+            System.out.print("\n");
         }
     }
 }
