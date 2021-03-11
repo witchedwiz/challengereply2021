@@ -1,5 +1,6 @@
 package it.reply.challenge.edition2021;
 
+
 import it.reply.challenge.edition2021.model.Antenna;
 import it.reply.challenge.edition2021.model.Building;
 import it.reply.challenge.edition2021.model.Cell;
@@ -56,6 +57,14 @@ public class SomeClass {
                         Integer.parseInt(s1[3])));
             }
 
+            for(int i = 0; i < w; i++) {
+                for (int j = 0; j < h; j++) {
+                    if (grid[i][j] == null)
+                        grid[i][j] = new Cell(i,j,null,null);
+                }
+                System.out.println();
+            }
+
             for (int i = 0; i < antennas; i++) {
                 line = reader.readLine();
                 String[] s1 = line.split(" ");
@@ -67,18 +76,21 @@ public class SomeClass {
             e.printStackTrace();
         }
 
-        //printGrid(grid);
+       System.out.println(printGrid(grid));
 
     }
 
-    private static void printGrid(Cell[][] grid) {
+    private static String printGrid(Cell[][] grid) {
+
+        String s = "";
 
         for(Cell[] cLine : grid) {
             for (Cell c : cLine) {
-                System.out.print(c.getBuilding() != null ? "B\t" : ".\t");
+                s=s.concat(c.getBuilding() != null ? "B\t" : ".\t");
             }
-            System.out.println();
+            s=s.concat("\n");
         }
+        return s;
 
     }
 
