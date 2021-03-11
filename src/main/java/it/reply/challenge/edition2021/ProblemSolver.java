@@ -18,15 +18,15 @@ public class ProblemSolver {
     int maxScore;
     Cell[][] gridMaxScore;
 
-    public ProblemSolver(int n, int m, List<Building> buildings, List<Antenna> antennaList, Cell[][] grid, int maxScore, Cell[][] gridMaxScore) {
+    public ProblemSolver(int n, int m, List<Building> buildings, List<Antenna> antennaList, Cell[][] grid) {
         N = n;
         M = m;
         this.buildings = buildings;
         this.antennaList = antennaList;
         this.grid = grid;
         this.antennas = (Antenna[]) antennaList.toArray();
-        this.maxScore = maxScore;
-        this.gridMaxScore = gridMaxScore;
+
+        this.maxScore = 0;
     }
 
     public void solve(int level) {
@@ -36,6 +36,9 @@ public class ProblemSolver {
             Integer score = evaluateScore();
             if(score > maxScore) {
                 maxScore = score;
+                //cloneGrid();
+                System.out.println("Found max score");
+                printGrid();
             }
         }
 
@@ -101,5 +104,29 @@ public class ProblemSolver {
 
     public boolean isFreeCell(int x, int y) {
         return grid[x][y].getAntenna() == null;
+    }
+
+    private void cloneGrid() {
+        for(int i = 0; i < N; i++) {
+            for(int j = 0; j < M; j++) {
+                gridMaxScore[i][j] = grid[i][j]; //Doesn't work, needs to make a copy of the objects (thanks Java)
+            }
+        }
+    }
+
+    private void printGrid() {
+        for(int i = 0; i < N; i++) {
+            for(int j = 0; j < M; j++) {
+                if(grid[i][j].getBuilding() != null) {
+                    System.out.println("B");
+                }
+                if(grid[i][j].getAntenna() != null) {
+                    System.out.println("A");
+                }
+
+                System.out.println(" ");
+            }
+            System.out.println("\n");
+        }
     }
 }
