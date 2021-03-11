@@ -7,9 +7,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class Antenna {
 
-    String id;
-    int x;
-    int y;
+    Integer id;
+    Integer x;
+    Integer y;
     Integer range;
     Integer connSpeed;
 

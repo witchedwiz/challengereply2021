@@ -8,8 +8,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class Building {
 
-    int x;
-    int y;
+    Integer x;
+    Integer y;
     Integer latencyWeight;
     Integer connSpeedWeight;
 }

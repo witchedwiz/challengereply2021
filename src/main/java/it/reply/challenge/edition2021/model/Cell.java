@@ -7,8 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class Cell {
 
-    int x;
-    int y;
+    Integer x;
+    Integer y;
     Antenna antenna;
     Building building;
 }
