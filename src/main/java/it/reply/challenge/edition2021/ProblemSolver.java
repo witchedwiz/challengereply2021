@@ -18,19 +18,25 @@ public class ProblemSolver {
     int maxScore;
     Cell[][] gridMaxScore;
 
-    public ProblemSolver(int n, int m, List<Antenna> antennaList, Cell[][] grid) {
+    public ProblemSolver(int n, int m, List<Building> buildings, List<Antenna> antennaList, Cell[][] grid, int maxScore, Cell[][] gridMaxScore) {
         N = n;
         M = m;
+        this.buildings = buildings;
         this.antennaList = antennaList;
         this.grid = grid;
         this.antennas = (Antenna[]) antennaList.toArray();
+        this.maxScore = maxScore;
+        this.gridMaxScore = gridMaxScore;
     }
 
     public void solve(int level) {
 
         if(level == antennaList.size()) {
             //Condizione terminale, ho allocato tutte le antenne => calcolo punteggio
-            int score = evaluateScore();
+            Integer score = evaluateScore();
+            if(score > maxScore) {
+                maxScore = score;
+            }
         }
 
         for(int i = 0; i < N; i++) {
@@ -45,6 +51,8 @@ public class ProblemSolver {
                 antennas[level].setX(i);
                 antennas[level].setY(j);
 
+                //considerare se ha senso così
+
                 solve(level+1);
 
                 grid[i][j].setAntenna(null);
@@ -56,8 +64,9 @@ public class ProblemSolver {
 
     }
 
-    public int evaluateScore() {
+    public Integer evaluateScore() {
 
+        List<Integer> buildingScores = new ArrayList<>();
         for(Building b : buildings) {
             List<Integer> scores = new ArrayList<>();
             for(Antenna a : antennas) {
@@ -65,10 +74,13 @@ public class ProblemSolver {
                 Integer score = (b.getConnSpeedWeight() * a.getConnSpeed()) - (b.getLatencyWeight() + dist);
                 scores.add(score);
             }
-            Integer maxSCore = scores.stream().max((o1, o2) -> o2 - o1).get();
+            Integer buildingScore = scores.stream().max((o1, o2) -> o2 - o1).get();
+            buildingScores.add(buildingScore);
         }
 
-        return 0;
+        Integer finalScore = buildingScores.stream().reduce(0, Integer::sum);
+
+        return finalScore;
     }
 
     public boolean isFreeCell(int x, int y) {
