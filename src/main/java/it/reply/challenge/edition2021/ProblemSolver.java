@@ -39,8 +39,8 @@ public class ProblemSolver {
                 //cloneGrid();
                 System.out.println("Found max score: " + maxScore);
                 printGrid();
-                return;
             }
+            return;
         }
 
         for(int i = 0; i < N; i++) {
@@ -50,7 +50,6 @@ public class ProblemSolver {
                     continue;
                 }
 
-                System.out.println("Level " + level);
                 //Assegno
                 grid[i][j].setAntenna(antennas[level]);
                 antennas[level].setX(i);
@@ -74,12 +73,16 @@ public class ProblemSolver {
     public boolean antennaReachesBuilding(Antenna a) {
         for(int i = a.getX()-a.getRange(); i < a.getX()+a.getRange(); i++) {
             for(int j = a.getY()-a.getRange(); j < a.getY()+a.getRange(); j++) {
-                if((i < 0 ) || (j < 0)) {
+                if((i < 0 ) || (j < 0) || (i > M) || (j > N)) {
                     continue;
                 }
 
-                if(grid[i][j].getBuilding() != null) {
-                    return true;
+                try {
+                    if (grid[i][j].getBuilding() != null) {
+                        return true;
+                    }
+                }catch (Exception e) {
+                    System.out.println("Exception" + e.getMessage());
                 }
             }
         }
