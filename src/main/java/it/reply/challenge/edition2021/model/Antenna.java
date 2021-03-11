@@ -7,6 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class Antenna {
 
+    int x;
+    int y;
     Integer range;
     Integer connSpeed;
 
