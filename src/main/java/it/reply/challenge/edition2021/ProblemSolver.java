@@ -52,6 +52,7 @@ public class ProblemSolver {
                 antennas[level].setY(j);
 
                 //considerare se ha senso così
+                if(antennaReachesBuilding(antennas[level]));
 
                 solve(level+1);
 
@@ -61,7 +62,22 @@ public class ProblemSolver {
 
             }
         }
+    }
 
+    public boolean antennaReachesBuilding(Antenna a) {
+        for(int i = a.getX()-a.getRange(); i < a.getX()+a.getRange(); i++) {
+            for(int j = a.getY()-a.getRange(); i < a.getY()+a.getRange(); j++) {
+                if((i < 0 ) || (j < 0)) {
+                    continue;
+                }
+
+                if(grid[i][j].getBuilding() != null) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public Integer evaluateScore() {
